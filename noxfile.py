@@ -1,7 +1,6 @@
-from nox_poetry import session, Session
+import nox
 
 
-@session
-def tests(session: Session) -> None:
-    session.install(".", "pytest")
-    session.run("pytest", *session.posargs)
+@nox.session(python=["3.8", "3.9"])
+def install(session: nox.Session) -> None:
+    session.run("
