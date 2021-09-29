@@ -10,3 +10,4 @@ jobs:
           python-version: 3.9
       - run: curl -sSL https://github.com/python-poetry/poetry/raw/master/install-poetry.py | python3
       - run: poetry --version
+      - run: which poetry
