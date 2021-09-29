@@ -1,8 +1,13 @@
 name: Tests
 
 on:
-  - pull_request
-  - push
+  push:
+    branches: [main]
+
+  pull_request:
+    branches: [main]
+
+  workflow_dispatch:
 
 jobs:
   tests:
@@ -43,7 +48,10 @@ jobs:
         shell: bash
         run: |
           curl -sL https://github.com/python-poetry/poetry/raw/master/install-poetry.py | python - -y
-          poetry --version
+          echo $path
+
+      - name: Display PATH
+        run: echo $PATH
 
       - name: Configure Poetry
         shell: bash
