@@ -8,5 +8,5 @@ jobs:
       - uses: actions/setup-python@v2
         with:
           python-version: 3.9
-      - run: pip install poetry
+      - run: curl https://github.com/python-poetry/poetry/raw/master/install-poetry.py | python
       - run: poetry --version
