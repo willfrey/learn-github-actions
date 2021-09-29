@@ -27,9 +27,7 @@ jobs:
 
       - name: Bootstrap poetry
         shell: bash
-        run: |
-          curl -sSL https://github.com/python-poetry/poetry/raw/master/install-poetry.py
-          | python - -y
+        run: curl -sL https://github.com/python-poetry/poetry/raw/master/install-poetry.py | python - -y
 
       - name: Get Poetry version
         id: full-poetry-version
