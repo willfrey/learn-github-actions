@@ -22,10 +22,11 @@ jobs:
 
       - name: Get full Python version
         id: full-python-version
-        # shell: bash
+        shell: bash
         run: echo ::set-output name=version::$(python -c "import sys; print('-'.join(str(v) for v in sys.version_info))")
 
       - name: Echo full Python version
+        shell: bash
         run: echo ${{ steps.full-python-version.outputs.version }}
       # - name: Bootstrap poetry
       # shell: bash
