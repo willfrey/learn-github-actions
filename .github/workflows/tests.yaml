@@ -22,17 +22,13 @@ jobs:
 
       - name: Get full Python version
         id: full-python-version
-        shell: bash
+        # shell: bash
         run: echo ::set-output name=version::$(python -c "import sys; print('-'.join(str(v) for v in sys.version_info))")
 
-      - name: Bootstrap poetry
-        shell: bash
-        run: curl -sL https://github.com/python-poetry/poetry/raw/master/install-poetry.py | python - -y
-
-      - name: Get Poetry version
-        id: full-poetry-version
-        shell: bash
-        run: echo poetry --version
-
-      - name: Configure poetry
-        run: poetry config virtualenvs.in-project true
+      - name: Echo full Python version
+        run: echo ${{ steps.full-python-version.outputs.version }}
+      # - name: Bootstrap poetry
+      # shell: bash
+      # run: curl -sL https://github.com/python-poetry/poetry/raw/master/install-poetry.py | python - -y
+      # - name: Configure poetry
+      # run: poetry config virtualenvs.in-project true
