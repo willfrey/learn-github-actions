@@ -42,8 +42,7 @@ jobs:
       - name: Bootstrap Poetry
         shell: bash
         run: |
-          curl -sL https://github.com/python-poetry/poetry/raw/master/install-poetry.py
-            | python - -y
+          curl -sL https://github.com/python-poetry/poetry/raw/master/install-poetry.py | python - -y
           poetry --version
 
       - name: Configure Poetry
