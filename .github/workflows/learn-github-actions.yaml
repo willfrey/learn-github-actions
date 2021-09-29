@@ -2,6 +2,7 @@ name: Learn GitHub Actions
 on: [push]
 jobs:
   check-bats-version:
+    name: Check bats version
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -10,4 +11,4 @@ jobs:
           node-version: "14"
       - run: npm install -g bats
       - run: bats -v
-
+    
