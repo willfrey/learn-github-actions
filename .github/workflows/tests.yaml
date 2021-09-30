@@ -22,17 +22,19 @@ jobs:
     runs-on: ${{ matrix.os }}
 
     steps:
-      - uses: actions/checkout@v2
+      - name: Check out repository
+        uses: actions/checkout@v2
 
       - name: Set up Python ${{ matrix.python-version }}
         uses: actions/setup-python@v2
         with:
           python-version: ${{ matrix.python-version }}
+        run: python3 -m pip install -U pip setuptools wheel
 
-      - name: Upgrade pip
-        run: |
-          python3 -m pip install -U pip
-          python3 -m pip --version
+      # - name: Upgrade pip
+      #   run: |
+      #     python3 -m pip install -U pip
+      #     python3 -m pip --version
 
       - name: Get full Python version
         id: full-python-version
