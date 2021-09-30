@@ -15,7 +15,6 @@ jobs:
       matrix:
         os: [macos-latest, ubuntu-latest]
         python-version: [3.9]
-        poetry-version: [1.1.9, 1.1.10, latest]
 
     name: ${{ matrix.os }} / ${{ matrix.python-version }} / ${{ matrix.poetry-version }}
     runs-on: ${{ matrix.os }}
@@ -38,7 +37,10 @@ jobs:
       - name: Install Poetry
         uses: snok/install-poetry@v1
         with:
-          version: ${{ matrix.poetry-version }}
+          version: latest
+          installer-parallel: false
+        env:
+          POETRY_VIRTUALENVS_IN_PROJECT: "false"
 
       - run: poetry --version
       - run: poetry config --list
