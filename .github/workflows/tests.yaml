@@ -40,7 +40,7 @@ jobs:
         with:
           version: ${{ matrix.poetry-version }}
           virtualenvs-create: true
-          virtualenvs-in-project: true
+          virtualenvs-in-project: false
 
       - name: Print the VENV environment variable to stdout
         run: echo "The VENV environment variable is ${{ env.VENV }}"
