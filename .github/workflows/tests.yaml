@@ -14,15 +14,15 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [macos-latest, ubuntu-latest, windows-latest]
+        # TODO: Add windows-latest
+        os: [macos-latest, ubuntu-latest]
         python-version: [3.8, 3.9]
 
     name: ${{ matrix.os }} / ${{ matrix.python-version }}
     runs-on: ${{ matrix.os }}
 
     steps:
-      - name: Check out the repository
-        uses: actions/checkout@v2
+      - uses: actions/checkout@v2
 
       - name: Set up Python ${{ matrix.python-version }}
         uses: actions/setup-python@v2
@@ -30,37 +30,31 @@ jobs:
           python-version: ${{ matrix.python-version }}
 
       - name: Upgrade pip
-        shell: bash
         run: |
-          pip install --upgrade pip
-          pip --version
+          python3 -m pip install -U pip
+          python3 -m pip --version
 
       - name: Get full Python version
         id: full-python-version
-        run: echo ::set-output name=version::$(python -c "import sys; print('-'.join(str(v) for v in sys.version_info))")
+        run: echo ::set-output name=version::$(python3 -c "import sys; print('-'.join(str(v) for v in sys.version_info))")
 
-      - name: Bootstrap Poetry
-        env:
-          POETRY_HOME: /opt/poetry
-        run: |
-          curl -sL https://github.com/python-poetry/poetry/raw/master/install-poetry.py | python - -y
-          echo "$POETRY_HOME/bin" >> "$GITHUB_PATH"
-          poetry --version
-
-      - name: Configure Poetry
-        run: poetry config virtualenvs.in-project true
-
-      - name: Set up cache
-        uses: actions/cache@v2
-        id: cache
-        with:
-          path: |
-            .venv
-          key: venv-${{ runner.os }}-${{ steps.full-python-version.outputs.version }}-${{ hashFiles('**/poetry.lock') }}
-
-      - name: Ensure cache is healthy
-        if: steps.cache.outputs.cache-hit == 'true'
-        run: timeout 10s poetry run pip --version || rm -rf .venv
-
-      - name: Install dependencies
-        run: poetry install
+      - name: Show pip packages
+        run: python3 -m pip list
+      # - name: Bootstrap Poetry
+      #   run: |
+      #     curl -sL https://github.com/python-poetry/poetry/raw/master/install-poetry.py | python3 - -y
+      #     poetry --version
+      # - name: Configure Poetry
+      #   run: poetry config virtualenvs.in-project true
+      # - name: Set up cache
+      #   uses: actions/cache@v2
+      #   id: cache
+      #   with:
+      #     path: |
+      #       .venv
+      #     key: venv-${{ runner.os }}-${{ steps.full-python-version.outputs.version }}-${{ hashFiles('**/poetry.lock') }}
+      # - name: Ensure cache is healthy
+      #   if: steps.cache.outputs.cache-hit == 'true'
+      #   run: timeout 10s poetry run pip --version || rm -rf .venv
+      # - name: Install dependencies
+      #   run: poetry install
