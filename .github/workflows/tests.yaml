@@ -15,6 +15,7 @@ jobs:
       matrix:
         os: [macos-latest, ubuntu-latest]
         python-version: ["3.8", "3.9"]
+        poetry-version: [latest]
 
     name: ${{ matrix.os }} / ${{ matrix.python-version }}
     runs-on: ${{ matrix.os }}
@@ -22,32 +23,30 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - uses: actions/setup-python@v2
+      - name: Set up Python ${{ matrix.python-version }}
         id: setup-python
+        uses: actions/setup-python@v2
         with:
           python-version: ${{ matrix.python-version }}
 
-      - uses: snok/install-poetry@v1
-        with:
-          virtualenvs-create: true
-          virtualenvs-in-project: true
+      - name: Install Poetry
+        uses: snok/install-poetry@v1
 
-      - uses: actions/cache@v2
-        id: cache
-        with:
-          path: .venv
-          key: venv-${{ runner.os }}-${{ steps.setup-python.outputs.python-version }}-${{ hashFiles('**/poetry.lock') }}
+      - run: echo "The setup-python step python-version output is ${{ steps.setup-python.outputs.python-version }}"
 
-      - if: steps.cache.outputs.cache-hit == 'true'
-        run: |
-          echo ${{ steps.cache.outputs.cache-hit }}
-          poetry run pip --version
+      
 
-      - if: steps.cache.outputs.cache-hit == 'false'
-        run: |
-          echo ${{ steps.cache.outputs.cache-hit }}
-          poetry run pip --version
+      # - uses: actions/cache@v2
+      #   id: cache
+      #   with:
+      #     path: ${{ env.VENV }}
+      #     key: venv-${{ runner.os }}-${{ steps.setup-python.outputs.python-version }}-${{ hashFiles('**/poetry.lock') }}
 
-      - if: steps.cache.outputs.cache-hit == 'true'
-        shell: bash
-        run: timeout 10s poetry run pip --version || rm -rf .venv
+      # - if: steps.cache.outputs.cache-hit == 'true'
+      #   run: echo ${{ steps.cache.outputs.cache-hit }}
+
+      # - if: steps.cache.outputs.cache-hit == 'false'
+      #   run: poetry run pip --version
+
+      # - if: steps.cache.outputs.cache-hit == 'true'
+      #   run: timeout 10s poetry run pip --version || rm -rf .venv
