@@ -36,10 +36,7 @@ jobs:
           pip --version
 
       - name: Install Poetry
-        uses: snok/install-poetry@v1
-        with:
-          version: ${{ matrix.poetry-version }}
-          virtualenvs-in-project: false
+        uses: snok/install-poetry@v1.2.0
 
       - run: poetry --version
       - run: poetry config --list
