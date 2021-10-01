@@ -19,13 +19,17 @@ jobs:
         with:
           python-version: 3.9
 
-      - uses: snok/install-poetry@v1.2
+      - uses: snok/install-poetry@v2
       - run: poetry config --list
       - run: poetry config virtualenvs.create false
       - run: poetry config --list
       - run: poetry config virtualenvs.create true
       - run: poetry config --list
-  
+      - run: poetry config virtualenvs.in-project false
+      - run: poetry config --list
+      - run: poetry config virtualenvs.in-project true
+      - run: poetry config --list
+
   tests:
     strategy:
       matrix:
