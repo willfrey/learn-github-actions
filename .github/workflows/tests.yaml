@@ -31,18 +31,14 @@ jobs:
 
       - name: Install Poetry
         uses: snok/install-poetry@v1
+        with:
+          virtualenvs-in-project: false
 
-      - run: poetry --version
+      - run: poetry config --list
       - run: poetry config virtualenvs.in-project false
       - run: poetry config --list
-
-      - name: Print the VENV environment variable to stdout
-        run: echo "The VENV environment variable is ${{ env.VENV }}"
-
       - run: poetry install -n
 
-      - name: Print the VENV environment variable to stdout again
-        run: echo "The VENV environment variable is ${{ env.VENV }}"
       # - uses: actions/cache@v2
       #   id: cache
       #   with:
