@@ -10,6 +10,22 @@ on:
   workflow_dispatch:
 
 jobs:
+  test-poetry-config:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: actions/setup-python@v2
+        with:
+          python-version: 3.9
+
+      - uses: snok/install-poetry@v2
+      - run: poetry config --list
+      - run: poetry config virtualenvs.create false
+      - run: poetry config --list
+      - run: poetry config virtualenvs.create true
+      - run: poetry config --list
+  
   tests:
     strategy:
       matrix:
@@ -33,7 +49,7 @@ jobs:
         uses: willfrey/install-poetry@v1.2
         with:
           virtualenvs-in-project: "false"
-          
+
       - name: Print poetry config to stdout
         run: poetry config --list
 
